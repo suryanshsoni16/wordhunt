@@ -1,15 +1,32 @@
-
-import { Container } from '@mui/material';
+import { withStyles } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
+import { Container, Switch } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
-import Definations from './components/Definations/Definations';
+import Definitions from './components/Definitions/Definitions';
+import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 
 function App() {
   const [meanings, setMeanings] = useState([]);
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("en");
+  const [LightTheme, setLightTheme] = useState(false);
+
+  const PurpleSwitch = withStyles({
+    switchBase: {
+      color: grey[50],
+      "&$checked": {
+        color: grey[900],
+      },
+      "&$checked + $track": {
+        backgroundColor: grey[500],
+      },
+    },
+    checked: {},
+    track: {},
+  })(Switch);
  
   const dictionaryApi = async () => {
     try {
@@ -29,11 +46,12 @@ function App() {
   },[word, category])
 
   return (
-    <div   className="App"
+    <div   
+    className="App"
     style={{
       height: "100vh",
-      backgroundColor: "#282c34",
-      
+      backgroundColor: LightTheme ? "#fff" : "#282c34",
+      color: LightTheme ? "black" : "white",
       transition: "all 0.5s linear",
     }}>
      <Container 
@@ -44,14 +62,29 @@ function App() {
          height: "100vh",
          justifyContent: "space-evenly" }}
       > 
+       <div
+          style={{ position: "absolute", top: 0, right: 15, paddingTop: 10 }}
+        >
+          <span>{LightTheme ? "Dark" : "Light"} Mode</span>
+          <PurpleSwitch
+            checked={LightTheme}
+            onChange={() => setLightTheme(!LightTheme)}
+          />
+        </div>
         <Header 
         setWord={setWord}
         category={category}
         setCategory={setCategory}
         word={word}
+        LightTheme={LightTheme}
         />
-        <Definations/>
+        <Definitions  
+        meanings={meanings}
+        word={word}
+        LightTheme={LightTheme}
+        category={category}/>
      </Container>
+     <Footer/>
      
        
     </div>

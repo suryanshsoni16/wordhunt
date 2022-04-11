@@ -5,9 +5,9 @@
     flex-direction: column;
     height: 35vh;
     width: 100%;
+    
   }
-  
-  .title {
+.title {
     font-size: 7vw;
     text-transform: uppercase;
     font-family: "Montserrat", sans-serif;
@@ -27,6 +27,7 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
+    
   }
   
   .search {
